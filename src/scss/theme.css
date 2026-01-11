@@ -25,6 +25,7 @@ button, .btn {
   color: #FFFFFF;
   border: 0;
   cursor: pointer;
+  overflow: hidden;
 }
 button:has(.icon), .btn:has(.icon) {
   color: #E84A4A;
@@ -32,6 +33,10 @@ button:has(.icon), .btn:has(.icon) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.5s ease;
+}
+button:has(.icon):hover .icon, .btn:has(.icon):hover .icon {
+  scale: 1.3;
 }
 
 .toggle input {
@@ -106,6 +111,7 @@ img {
           mask-size: 24px;
   width: 24px;
   height: 24px;
+  transition: all 0.3s ease;
 }
 .icon.icon-bluetooth {
   -webkit-mask-image: url("../assets/icon_bluetooth.svg");
@@ -142,6 +148,24 @@ img {
   border: 0;
   text-align: left;
   margin: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+.badge::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-50%);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+.badge:hover {
+  filter: brightness(1.05) contrast(1.05);
+}
+.badge:hover::after {
+  transform: translateX(50%);
 }
 .badge.badge-hire {
   color: #000003;
@@ -221,9 +245,10 @@ img {
   transition: all 0.5s ease-in;
 }
 #main-visual.is-background {
+  transform: perspective(906) rotateY(-19deg) translateX(28%);
   -webkit-transform: perspective(906) rotateY(-19deg) translateX(28%);
   scale: 0.6;
-  max-width: 1600px;
+  width: 1600px;
 }
 #main-visual.is-background button {
   pointer-events: none;
@@ -259,9 +284,16 @@ img {
   font-size: 2rem;
   margin-left: 4rem;
   margin-right: 1rem;
+  line-height: 1;
 }
 #topbar .metas {
   gap: 3rem;
+}
+#topbar .metas button {
+  transition: all 0.3s ease;
+}
+#topbar .metas button:hover {
+  color: #E84A4A;
 }
 #topbar .metas .meta {
   font-size: 1.4rem;
@@ -364,9 +396,13 @@ nav.tabs .tab {
   padding: 0;
   border-left: 2px solid #E84A4A;
   background-color: rgba(51, 51, 51, 0.062745098);
+  transition: all 0.5s ease;
 }
 nav.tabs .tab .badge {
   padding-left: 0.5rem;
+}
+nav.tabs .tab.is-active {
+  scale: 1.05;
 }
 nav.tabs .tab:not(.is-active) {
   border-color: #242425;
@@ -381,6 +417,7 @@ nav.tabs .tab .description {
   opacity: 0.5;
   text-align: left;
   max-width: 10.2rem;
+  padding-left: 0.5rem;
 }
 
 .cover .tagline {
@@ -404,7 +441,7 @@ nav.tabs .tab .description {
 }
 
 /*-- Tools --*/
-.form-scene {
+.side-scene {
   position: absolute;
   top: 0;
   left: 0;
@@ -413,7 +450,7 @@ nav.tabs .tab .description {
   display: flex;
   align-items: center;
 }
-.form-scene::before {
+.side-scene::before {
   content: "";
   position: absolute;
   top: 0;
@@ -423,20 +460,21 @@ nav.tabs .tab .description {
   height: 100%;
   background: linear-gradient(90deg, #000000 10.96%, rgba(0, 0, 0, 0) 100%);
 }
-.form-scene .open-for-hire {
-  margin-left: 15rem;
-  width: 47rem;
+.side-scene header {
+  margin-bottom: 1rem;
 }
-.form-scene .open-for-hire header {
-  margin-bottom: 2.5rem;
-}
-.form-scene .open-for-hire header h2 {
+.side-scene header h2 {
   font-family: "Big Shoulders", sans-serif;
   font-weight: 700;
   font-size: 1.8rem;
   margin-bottom: 1rem;
 }
-.form-scene .open-for-hire form .fields {
+.side-scene .open-for-hire {
+  padding-top: 1rem;
+  margin-left: 15rem;
+  width: 47rem;
+}
+.side-scene .open-for-hire form .fields {
   background: rgba(232, 74, 74, 0.0901960784);
   border: 1px solid rgba(255, 255, 255, 0.1294117647);
   -webkit-backdrop-filter: blur(13px);
@@ -446,17 +484,17 @@ nav.tabs .tab .description {
   gap: 2rem;
   margin-bottom: 2rem;
 }
-.form-scene .open-for-hire form .fields .field {
+.side-scene .open-for-hire form .fields .field {
   display: grid;
   gap: 1rem;
 }
-.form-scene .open-for-hire form .fields .field label {
+.side-scene .open-for-hire form .fields .field label {
   font-family: "Big Shoulders", sans-serif;
   font-weight: 700;
   font-size: 1.8rem;
   color: #E84A4A;
 }
-.form-scene .open-for-hire form .fields .field input, .form-scene .open-for-hire form .fields .field textarea {
+.side-scene .open-for-hire form .fields .field input, .side-scene .open-for-hire form .fields .field textarea {
   background: #010103;
   border: 1px solid #333333;
   padding: 1rem;
@@ -466,24 +504,56 @@ nav.tabs .tab .description {
   font-size: 1.4rem;
   color: #FFFFFF;
 }
-.form-scene .open-for-hire form .fields .field textarea {
-  min-height: 20rem;
+.side-scene .open-for-hire form .fields .field input:focus, .side-scene .open-for-hire form .fields .field textarea:focus {
+  outline: 1px solid #E84A4A;
 }
-.form-scene .open-for-hire form .actions {
+.side-scene .open-for-hire form .fields .field textarea {
+  min-height: 20rem;
+  max-height: 40rem;
+  resize: vertical;
+}
+.side-scene .open-for-hire form .actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3%;
 }
-.form-scene .open-for-hire form .actions button {
+.side-scene .open-for-hire form .actions button {
   padding: 0.5rem;
   color: #000003;
   background-color: #E84A4A;
-  border: 0;
+  border: 1px solid #E84A4A;
+  transition: all 0.5s ease;
 }
-.form-scene .open-for-hire form .actions button:nth-of-type(2) {
+.side-scene .open-for-hire form .actions button:hover {
   background-color: unset;
-  border: 1px solid #262626;
   color: #E84A4A;
+}
+.side-scene .open-for-hire form .actions button:nth-of-type(2) {
+  background-color: unset;
+  border-color: #262626;
+  color: #E84A4A;
+}
+.side-scene .open-for-hire form .actions button:nth-of-type(2):hover {
+  border-color: #E84A4A;
+}
+.side-scene #credits {
+  border-top: 3px solid #E84A4A;
+  padding-top: 2rem;
+}
+.side-scene #credits table th, .side-scene #credits table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 1rem 3rem 3rem 0;
+}
+.side-scene #credits table th {
+  text-wrap: nowrap;
+}
+.side-scene .fullscreen {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
 }
 
 /*--------- SP styles ---------*//*# sourceMappingURL=theme.css.map */
