@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Interactive portfolio presented as a game-like system interface."
+    />
+    <meta name="author" content="goldf13h" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,100..900&family=Iceland&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>My Portfolio</title>
+  </head>
+
+  <body>
+    <div class="main-visual">
+      <!-- Fixed display contents -->
+      <header class="topbar">
+        <section class="stats">
+          <div class="stat">
+            <span class="stat-value">48</span>
+            <span class="stat-label">LEVEL</span>
+          </div>
+          <button aria-label="Add">+</button>
+          <div class="stat">
+            <span class="stat-value">1,425</span>
+            <span class="stat-label">COINS AWARDED</span>
+          </div>
+        </section>
+        <section class="metas">
+          <span class="meta">CREDITS</span>
+          <span class="meta"><span>SERVER TIME:</span>HH:MM:SS</span>
+          <span class="meta"><span>LOCAL TIME:</span>HH:MM:SS</span>
+        </section>
+      </header>
+
+      <aside class="panel panel__profile">
+        <section class="profile">
+          <figure class="avatar" role="img" aria-label="Profile avatar">
+            <img src="game-landing-page/src/assets/profile_pic.png">
+          </figure>
+          <dl class="details">
+            <div class="kv">
+              <dt>Name</dt>
+              <dd>Yanlin Yu / Rachel</dd>
+            </div>
+            <div class="kv">
+              <dt>Occupation</dt>
+              <dd>Web Developer</dd>
+            </div>
+            <div class="kv">
+              <dt>Avaibility</dt>
+              <dd><button class="badge">Open for hire</button></dd>
+            </div>
+            <div class="kv action">
+              <dt>Social</dt>
+              <dd><button class="btn">Open connection</button></dd>
+            </div>
+          </dl>
+        </section>
+        <footer class="motto">
+          <h3>MOTTO:</h3>
+          <p class="muted">Saepe omnis neque numquam recusandae laborantium.</p>
+        </footer>
+      </aside>
+
+      <aside class="panel panel__quest">
+        <section class="quest">
+          <header>
+            <h2 class="badge">Active Quest</h2>
+            <p>The react skill-up line</p>
+          </header>
+          <dl class="details">
+            <div class="kv">
+              <dt>Quest name</dt>
+              <dd>React website</dd>
+            </div>
+            <div>
+              <dt>Goal</dt>
+              <dd class="muted">Build this website. Implement a full react website with multiple routers, UI elements and tricky styling. Make it all work great!</dd>
+            </div>
+            <div>
+              <dt>Rewards</dt>
+              <dd>
+                <ul class="rewards">
+                  <li class="reward">
+                    <img src="game-landing-page/src/assets/reward_img01.png" alt="Reward">
+                    <span class="reward__value">+5</span>
+                  </li>
+
+                  <li class="reward">
+                    <img src="game-landing-page/src/assets/reward_img01.png" alt="Reward">
+                    <span class="reward__value">+25</span>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </section>
+        <footer>
+          <label class="toggle">
+            <span>Sound effect</span>
+            <input type="checkbox" checked>
+          </label>
+          <label class="toggle">
+            <span>Music</span>
+            <input type="checkbox">
+          </label>
+          <button>
+            <span>VISUAL SETTINGS</span>
+            <p class="icon icon-gear"></p>
+          </button>
+        </footer>
+      </aside>
+      <!-- Fixed display contents end -->
+
+      <!-- Main stage -->
+      <main class="stage">
+        <section class="cover">
+          <div class="tagline">
+            <h1>Swimming through a vast network of interconnected devices and servers, spreading joy and whimsy to users across the globe</h1>
+            <p class="muted">
+              Artwork generated with midjourney
+            </p>
+          </div>
+          <figure>
+            <img src="game-landing-page/src/assets/cover_img.png" alt="Cover image">
+          </figure>
+        </section>
+      </main>
+
+      <nav>
+        <a class="tab is-active" href="#beginning">beginning</a>
+        <a class="tab" href="#logs">logs</a>
+        <a class="tab" href="#achievements">achievements</a>
+        <a class="tab" href="#creations">creations</a>
+        <a class="tab" href="#games">games</a>
+      </nav>
+    </div>
+
+    <!-- Toggled by open for hire button and hide main-visual -->
+    <div class="form-scene">
+      <section class="open-for-hire">
+        <header>
+          <h2>Open for hire</h2>
+          <p>I would love to hear about your projects!</p>
+        </header>
+        <form>
+          <div class="fields">
+            <div class="field">
+              <label for="name">How should I call you?</label>
+              <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="email">Sending from</label>
+              <input id="email" name="email" type="text" placeholder="your.name@acme.com" autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="message">Transmitted data</label>
+              <textarea name="message" id="message" placeholder="Hi, I write to you about ..."></textarea>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit">Send message [enter]</button>
+            <button type="reset">Discard [esc]</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </body>
+</html>

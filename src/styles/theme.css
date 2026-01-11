@@ -1,0 +1,30 @@
+
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boot-container {
+  max-width: 900px;
+}
+
+.boot-title {
+  font-size: 160px;
+  font-weight: 800;
+  color: #d44a4a;
+}
+
+.boot-text {
+  margin-top: 24px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.boot-actions button {
+  margin-right: 12px;
+}
