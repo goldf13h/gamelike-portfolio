@@ -130,6 +130,9 @@ img {
   &.icon-gear {
     mask-image: url('../assets/icon_gear.svg');
   }
+  &.icon-img {
+    mask-image: url('../assets/icon_image.svg');
+  }
 }
 
 .details {
@@ -191,6 +194,27 @@ img {
 
 .muted {
   color: $muted;
+}
+
+.collapsible {
+  overflow: clip;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 280ms ease, opacity 200ms ease, transform 280ms ease;
+  will-change: max-height, opacity, transform;
+  &.is-open {
+    max-height: var(--h);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-backdrop {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 /*--------- Preset end---------*/
 
@@ -272,6 +296,15 @@ img {
     button {
       pointer-events: none;
     }
+    .tabs {
+      opacity: 0;
+    }
+  }
+  &.is-modal-background {
+    transform: perspective(906) rotateY(-19deg) translateX(28%);
+    -webkit-transform: perspective(906) rotateY(-19deg) translateX(28%);
+    scale: 0.6;
+    width: 1600px;
   }
 }
 
@@ -486,14 +519,54 @@ nav.tabs {
   }
 }
 
+@keyframes loadingbar-sweep {
+  0%   { transform: translateX(-60%); opacity: 0.65; }
+  50%  { opacity: 1; }
+  100% { transform: translateX(220%); opacity: 0.65; }
+}
+
 #logs {
   height: 85vh;
+  padding: 0 5rem;
   .notice {
     text-align: center;
+  }
+  .muted {
+    color: #7A7A7A;
+  }
+
+  .log-loader {
+    display: grid;
+    gap: 10px;
+
+    .loadingbar {
+      position: relative;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #00000008;
+      border: 1px solid #00000012;
+      .fill {
+        position: absolute;
+        inset: 0;
+        width: 40%;
+        border-radius: 999px;
+        background: #E84A4A85;
+        filter: drop-shadow(0 0 6px #E8434335);
+        animation: loadingbar-sweep 1.15s ease-in-out infinite;
+        transform: translateX(-60%);
+      }
+    }
   }
   .logs-container {
     display: grid;
     gap: 1rem;
+    max-width: 95rem;
+    margin: 0 auto;
+    .log {
+      transition: all 0.3s ease;
+    }
     header {
       .log-header {
         background-color: $primary;
@@ -503,6 +576,8 @@ nav.tabs {
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        margin-bottom: 0;
+        padding: 0 0.5rem;
         .header-text {
           font-family: "Big Shoulders", sans-serif;
           font-weight: 700;
@@ -514,6 +589,7 @@ nav.tabs {
         }
       }
       p {
+        margin: 0.5rem 0;
         .muted {
           margin-left: 1rem;
         }
@@ -524,24 +600,34 @@ nav.tabs {
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
       .card {
-        background-color: $black;
+        background-color: #000000;
         border: 1px solid #FFFFFF21;
         display: block;
+        padding: 1rem;
         dt {
           font-family: "Big Shoulders", sans-serif;
           font-weight: 700;
           font-size: 1.8rem;
           color: $primary;
+          margin-bottom: 0.5rem;
         }
         .btn-expand {
+          margin-top: 0.5rem;
           color: $primary;
           font-family: "Iceland", sans-serif;
           width: fit-content;
         }
       }
     }
+    .btn-preview {
+      width: 20rem;
+      margin: 0 auto;
+      border: 1px solid $primary;
+    }
     .older-logs {
+      padding-bottom: 5vh;
       header {
+        cursor: pointer;
         .log-header {
           background-color: unset;
           border: 1px solid $primary;

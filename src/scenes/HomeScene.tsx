@@ -15,12 +15,24 @@ export default function HomeScene(props: {
   tab: Tab;
   onTabChange: (t: Tab) => void;
   onOpenSide: (page: SidePage) => void;
-  backgroundMode?: boolean;
+  backgroundMode?: "none" | "side" | "modal";
+  onModalChange?: (open: boolean) => void;
 }) {
-  const { tab, onTabChange, onOpenSide, backgroundMode } = props;
+  const { tab, onTabChange, onOpenSide, backgroundMode = "none", onModalChange, } = props;
+
+  const bgClass =
+    backgroundMode === "side"
+      ? "is-background"
+      : backgroundMode === "modal"
+      ? "is-modal-background"
+      : "";
+
+  const handleModalChange = (open: boolean) => {
+    onModalChange?.(open);
+  };
 
   return (
-    <div id="main-visual" className={`${backgroundMode ? "is-background" : ""}`}>
+    <div id="main-visual" className={bgClass}>
       <TopBar  onOpenSide={onOpenSide} />
 
       <ProfilePanel onOpenSide={onOpenSide} />
@@ -32,7 +44,7 @@ export default function HomeScene(props: {
         <span className="layer layer3"></span>
         <span className="layer layer4"></span>
         {tab === "beginning" && <BeginningTab />}
-        {tab === "logs" && <LogsTab />}
+        {tab === "logs" && <LogsTab onModalChange={handleModalChange} />}
         {tab === "achievements" && <AchievementsTab />}
         {tab === "creations" && <CreationsTab />}
         {tab === "games" && <GamesTab />}

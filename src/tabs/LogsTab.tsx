@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { Collapsible } from "../hooks/Collapsible";
+import imageSample01 from "../assets/project_detail_sample.png"
 
 type LogCard = {
   title: string;
@@ -21,7 +23,8 @@ function clampText(text: string, maxChars: number): { text: string; clamped: boo
   return { text: text.slice(0, maxChars).trimEnd() + "...", clamped: true };
 }
 
-export default function LogsTab() {
+export default function LogsTab(props: { onModalChange?: (open: boolean) => void }) {
+  const { onModalChange } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function LogsTab() {
             title: "Project update",
             body:
               "The development team has been working tirelessly on the latest iteration of the project. Significant progress has been made in the areas of neural interface integration, machine learning algorithms, and quantum computing.",
+            collapsible: true,
           },
           {
             title: "Challenges",
@@ -53,6 +57,7 @@ export default function LogsTab() {
             title: "NEXT STEPS",
             body:
               "Stabilize the interface layer, isolate fault domains, add crash telemetry, and run compatibility tests across the full hardware matrix. Begin staging the next milestone build for internal review and prepare a public-facing summary suitable for non-technical stakeholders.",
+            collapsible: true,
           },
           {
             title: "Outlook",
@@ -63,8 +68,7 @@ export default function LogsTab() {
         ],
         // images optional; if removed or empty => button not shown
         images: [
-          // put real imports/urls here when you have them
-          // { src: someImg, alt: "Lab photo" },
+          { src: imageSample01, alt: "Lab photo" },
         ],
       },
       {
@@ -78,6 +82,7 @@ export default function LogsTab() {
             title: "Project update",
             body:
               "Prototypes are operational in controlled environments. Integration tests indicate improved signal fidelity, but long-run stability remains unverified.",
+            collapsible: true,
           },
           {
             title: "Challenges",
@@ -89,6 +94,7 @@ export default function LogsTab() {
             title: "NEXT STEPS",
             body:
               "Add structured logging around transport state transitions, increase test coverage for edge cases, and validate failover behavior under simulated packet loss.",
+            collapsible: true,
           },
           {
             title: "Notes",
@@ -112,6 +118,7 @@ export default function LogsTab() {
             title: "Project update",
             body:
               "Project initialization complete. Requirements gathered and initial architecture drafted. Team roles assigned and milestones defined.",
+            collapsible: true,
           },
           {
             title: "Challenges",
@@ -123,6 +130,7 @@ export default function LogsTab() {
             title: "NEXT STEPS",
             body:
               "Finalize scope, lock the first milestone, set up CI, and establish a single source of truth for design decisions.",
+            collapsible: true,
           },
           {
             title: "Notes",
@@ -161,8 +169,14 @@ export default function LogsTab() {
 
   const [preview, setPreview] = useState<{ logId: string } | null>(null);
 
+  function openPreview(logId: string) {
+    setPreview({ logId });
+    onModalChange?.(true);
+  }
+
   function closePreview() {
     setPreview(null);
+    onModalChange?.(false);
   }
 
   useEffect(() => {
@@ -183,7 +197,10 @@ export default function LogsTab() {
       {loading ? (
         <div className="log-loader notice" aria-live="polite" aria-busy="true">
           <p>Initializing log interface</p>
-          <p className="muted">▮▮▮▯▯▯</p>
+          <div className="loadingbar" role="progressbar" aria-label="Loading logs">
+            <span className="fill" />
+          </div>
+          <p className="muted">Establishing data link…</p>
         </div>
       ) : (
         <>
@@ -205,7 +222,7 @@ export default function LogsTab() {
               ))}
             </dl>
             {currentLog.images && currentLog.images.length > 0 ? (
-              <button type="button" onClick={() => setPreview({ logId: currentLog.id })}>
+              <button className="btn-preview" type="button" onClick={() => openPreview(currentLog.id)}>
                 Preview visual records <span className="icon icon-img"></span>
               </button>
             ) : null}
@@ -216,6 +233,7 @@ export default function LogsTab() {
             <div className="logs-container">
               {olderLogs.map((entry) => {
                 const isOpen = openOlderLogIds.has(entry.id);
+                const contentId = `${entry.id}-content`;
                 return (
                   <div key={entry.id} className={`log ${isOpen ? "is-open" : ""}`}>
                     <header>
@@ -224,45 +242,40 @@ export default function LogsTab() {
                         className="log-header"
                         onClick={() => toggleOlderLog(entry.id)}
                         aria-expanded={isOpen}
+                        aria-controls={contentId}
                       >
-                          <span className="header-text">{entry.title}</span>
-                          <span className="date">DATE: {entry.date}</span>
+                        <span className="header-text">{entry.title}</span>
+                        <span className="date">DATE: {entry.date}</span>
                       </button>
-                      {isOpen ? (
-                        <>
-                          <p>
-                            LOCATION:
-                            <span className="muted">{entry.location}</span>
-                          </p>
-                          <p>
-                            PROJECT STATUS:
-                            <span className="muted">{entry.status}</span>
-                          </p>
-                        </>
-                      ) : null}
                     </header>
-                    {isOpen ? (
-                      <>
-                        <dl className="details">
-                          {entry.cards.map((card, idx) => (
-                            <LogCardView
-                              key={idx}
-                              logId={entry.id}
-                              idx={idx}
-                              card={card}
-                              expanded={expandedCards.has(`${entry.id}:${idx}`)}
-                              onToggle={() => toggleCard(entry.id, idx)}
-                            />
-                          ))}
-                        </dl>
 
-                        {entry.images && entry.images.length > 0 ? (
-                          <button type="button" onClick={() => setPreview({ logId: entry.id })}>
-                            Preview visual records <span className="icon icon-img"></span>
-                          </button>
-                        ) : null}
-                      </>
-                    ) : null}
+                    <Collapsible open={isOpen} id={contentId}>
+                      <p>
+                        LOCATION: <span className="muted">{entry.location}</span>
+                      </p>
+                      <p>
+                        PROJECT STATUS: <span className="muted">{entry.status}</span>
+                      </p>
+
+                      <dl className="details">
+                        {entry.cards.map((card, idx) => (
+                          <LogCardView
+                            key={idx}
+                            logId={entry.id}
+                            idx={idx}
+                            card={card}
+                            expanded={expandedCards.has(`${entry.id}:${idx}`)}
+                            onToggle={() => toggleCard(entry.id, idx)}
+                          />
+                        ))}
+                      </dl>
+
+                      {entry.images && entry.images.length > 0 ? (
+                        <button type="button" onClick={() => openPreview(entry.id)}>
+                          Preview visual records <span className="icon icon-img"></span>
+                        </button>
+                      ) : null}
+                    </Collapsible>
                   </div>
                 );
               })}

@@ -13,6 +13,7 @@ export default function Deck() {
   const [scene, setScene] = useState<Scene>("boot");
   const [sidePage, setSidePage] = useState<SidePage | null>(null);
   const [tab, setTab] = useState<Tab>("beginning");
+  const [backgroundMode, setBackgroundMode] = useState<"none" | "side" | "modal">("none");
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
@@ -48,16 +49,19 @@ export default function Deck() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [scene]);
 
+
   const actions = useMemo(
     () => ({
       enterSytem: () => setScene("home"),
       openSide: (page: SidePage) => {
         setSidePage(page);
         setScene("side");
+        setBackgroundMode("side");
       },
       closeSide: () => {
         setScene("home");
         setSidePage(null);
+        setBackgroundMode("none");
       },
 
       goTab: (t: Tab) => setTab(t),
@@ -83,7 +87,9 @@ export default function Deck() {
           tab={tab}
           onTabChange={actions.goTab}
           onOpenSide={actions.openSide}
-          backgroundMode
+          onModalChange={(open) =>
+            setBackgroundMode(open ? "side" : "none")
+          }
         />
 
         {sidePage === "hire" && <HireScene onClose={actions.closeSide} />}
@@ -98,6 +104,10 @@ export default function Deck() {
       tab={tab}
       onTabChange={actions.goTab}
       onOpenSide={actions.openSide}
+      backgroundMode={backgroundMode}
+      onModalChange={(open) =>
+        setBackgroundMode(open ? "modal" : "none")
+      }
     />
   );
 }
