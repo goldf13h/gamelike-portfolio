@@ -26,7 +26,11 @@ export default function HomeScene(props: {
       <ProfilePanel onOpenSide={onOpenSide} />
       <QuestPanel />
 
-      <main className="stage">
+      <main className="stage layer-frame">
+        <span className="layer layer1"></span>
+        <span className="layer layer2"></span>
+        <span className="layer layer3"></span>
+        <span className="layer layer4"></span>
         {tab === "beginning" && <BeginningTab />}
         {tab === "logs" && <LogsTab />}
         {tab === "achievements" && <AchievementsTab />}

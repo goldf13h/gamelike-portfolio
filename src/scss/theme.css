@@ -79,6 +79,7 @@ img {
   position: absolute;
   width: 7px;
   aspect-ratio: 1;
+  z-index: 10;
 }
 .layer-frame .layer.layer1 {
   top: 0;
@@ -374,16 +375,9 @@ img {
   border: 1px solid #262626;
 }
 
-.stage {
-  grid-area: stage;
-  height: 85vh;
-}
-.stage section {
-  height: 100%;
-}
-
 nav.tabs {
   position: fixed;
+  z-index: 100;
   bottom: 4vh;
   left: 50%;
   transform: translateX(-50%);
@@ -420,27 +414,106 @@ nav.tabs .tab .description {
   padding-left: 0.5rem;
 }
 
-.cover .tagline {
+/*-- Home scene end --*/
+/*-- Tabs --*/
+.stage {
+  grid-area: stage;
+  height: 85vh;
+}
+.stage section {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: linear-gradient(90deg, rgba(232, 74, 74, 0) 0%, rgba(232, 74, 74, 0.17) 51.94%, rgba(232, 74, 74, 0) 100%);
+}
+
+#beginning .tagline {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
 }
-.cover .tagline h1 {
+#beginning .tagline h1 {
   font-size: 1.8rem;
   margin-top: 3rem;
 }
-.cover figure {
+#beginning figure {
   height: 100%;
+  margin: 0;
 }
-.cover figure img {
+#beginning figure img {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
 
-/*-- Tools --*/
+#logs {
+  height: 85vh;
+}
+#logs .notice {
+  text-align: center;
+}
+#logs .logs-container {
+  display: grid;
+  gap: 1rem;
+}
+#logs .logs-container header .log-header {
+  background-color: #E84A4A;
+  border: 1px solid #E84A4A;
+  color: #242425;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+#logs .logs-container header .log-header .header-text {
+  font-family: "Big Shoulders", sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+#logs .logs-container header .log-header .date {
+  font-family: "Iceland", sans-serif;
+  font-size: 1.4rem;
+}
+#logs .logs-container header p .muted {
+  margin-left: 1rem;
+}
+#logs .logs-container .details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+#logs .logs-container .details .card {
+  background-color: #242425;
+  border: 1px solid rgba(255, 255, 255, 0.1294117647);
+  display: block;
+}
+#logs .logs-container .details .card dt {
+  font-family: "Big Shoulders", sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #E84A4A;
+}
+#logs .logs-container .details .card .btn-expand {
+  color: #E84A4A;
+  font-family: "Iceland", sans-serif;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#logs .logs-container .older-logs header .log-header {
+  background-color: unset;
+  border: 1px solid #E84A4A;
+  color: #E84A4A;
+  transition: all 0.3s ease;
+}
+#logs .logs-container .older-logs .log.is-open .log-header {
+  background-color: #E84A4A;
+  color: #242425;
+}
+
+/*-- Tabs end --*/
+/*-- Side Scenes --*/
 .side-scene {
   position: absolute;
   top: 0;
@@ -556,4 +629,5 @@ nav.tabs .tab .description {
   left: 0;
 }
 
+/*-- Side Scenes End --*/
 /*--------- SP styles ---------*//*# sourceMappingURL=theme.css.map */

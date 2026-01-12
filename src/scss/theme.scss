@@ -90,6 +90,7 @@ img {
     position: absolute;
     width: 7px;
     aspect-ratio: 1;
+    z-index: 10;
     &.layer1 {
       top: 0;
       border-top: 2px solid #E84A4A;
@@ -408,16 +409,10 @@ img {
   }
 }
 
-.stage {
-  grid-area: stage;
-  height: 85vh;
-  section {
-    height: 100%;
-  }
-}
 
 nav.tabs {
   position: fixed;
+  z-index: 100;
   bottom: 4vh;
   left: 50%;
   transform: translateX(-50%);
@@ -454,7 +449,22 @@ nav.tabs {
   }
 }
 
-.cover {
+/*-- Home scene end --*/
+
+/*-- Tabs --*/
+
+.stage {
+  grid-area: stage;
+  height: 85vh;
+  section {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: linear-gradient(90deg, rgba(232, 74, 74, 0) 0%, rgba(232, 74, 74, 0.17) 51.94%, rgba(232, 74, 74, 0) 100%);
+  }
+}
+
+#beginning {
   .tagline {
     position: absolute;
     top: 0;
@@ -468,6 +478,7 @@ nav.tabs {
   }
   figure {
     height: 100%;
+    margin: 0;
     img {
       height: 100%;
       object-fit: cover;
@@ -475,10 +486,85 @@ nav.tabs {
   }
 }
 
+#logs {
+  height: 85vh;
+  .notice {
+    text-align: center;
+  }
+  .logs-container {
+    display: grid;
+    gap: 1rem;
+    header {
+      .log-header {
+        background-color: $primary;
+        border: 1px solid $primary;
+        color: $black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        .header-text {
+          font-family: "Big Shoulders", sans-serif;
+          font-weight: 700;
+          font-size: 1.8rem;
+        }
+        .date {
+          font-family: "Iceland", sans-serif;
+          font-size: 1.4rem;
+        }
+      }
+      p {
+        .muted {
+          margin-left: 1rem;
+        }
+      }
+    }
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      .card {
+        background-color: $black;
+        border: 1px solid #FFFFFF21;
+        display: block;
+        dt {
+          font-family: "Big Shoulders", sans-serif;
+          font-weight: 700;
+          font-size: 1.8rem;
+          color: $primary;
+        }
+        .btn-expand {
+          color: $primary;
+          font-family: "Iceland", sans-serif;
+          width: fit-content;
+        }
+      }
+    }
+    .older-logs {
+      header {
+        .log-header {
+          background-color: unset;
+          border: 1px solid $primary;
+          color: $primary;
+          transition: all 0.3s ease;
+        }
+      }
+      .log.is-open {
+        .log-header {
+          background-color: $primary;
+          color: $black;
+        }
+      }
+    }
+
+  }
+}
 
 
 
-/*-- Tools --*/
+/*-- Tabs end --*/
+
+/*-- Side Scenes --*/
 .side-scene {
   position: absolute;
   top: 0;
@@ -596,6 +682,8 @@ nav.tabs {
     left: 0;
   }
 }
+
+/*-- Side Scenes End --*/
 
 
 /*--------- SP styles ---------*/
