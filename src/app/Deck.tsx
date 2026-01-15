@@ -33,6 +33,7 @@ export default function Deck() {
         if (scene === "side") {
           setScene("home");
           setSidePage(null);
+          setBackgroundMode("none");
         }
         return;
       }
@@ -87,6 +88,7 @@ export default function Deck() {
           tab={tab}
           onTabChange={actions.goTab}
           onOpenSide={actions.openSide}
+          backgroundMode={backgroundMode}
           onModalChange={(open) =>
             setBackgroundMode(open ? "side" : "none")
           }
