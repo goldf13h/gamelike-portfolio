@@ -1,11 +1,15 @@
 import { useMemo, useState } from "react";
-import icon01 from "../assets/achievement_icon01.png";
+import iconlegendary from "../assets/achievement_icon01.png";
+import iconepic01 from "../assets/achievement_icon02.png";
+import iconepic02 from "../assets/achievement_icon03.png";
+import iconepic03 from "../assets/achievement_icon04.png";
 
 type AchievementStatus = "achieved" | "in_progress" | "todo";
 type Rarity = "legendary" | "epic";
 type AchievementIcon = {
   src: string;
   alt: string;
+  cat: string;
 };
 
 type Achievement = {
@@ -13,8 +17,7 @@ type Achievement = {
   title: string;
   rarity: Rarity;
   status: AchievementStatus;
-  /** optional icon node (svg, img, etc). If omitted, we show a placeholder glyph */
-  icon?: AchievementIcon;
+  icon: AchievementIcon;
   description?: string;
 };
 
@@ -34,8 +37,9 @@ export default function AchievementsTab() {
         rarity: "legendary",
         status: "achieved",
         icon: {
-          src: icon01,
+          src: iconlegendary,
           alt: "Legendary achievement emblem",
+          cat: "legendary",
         },
         description: "Hit a major public milestone on a shipped project.",
       },
@@ -44,48 +48,88 @@ export default function AchievementsTab() {
         title: "RELEASE PERSONAL WEBSITE",
         rarity: "epic",
         status: "achieved",
+        icon: {
+          src: iconepic01,
+          alt: "Epic achievement emblem-1",
+          cat: "epic01",
+        },
       },
       {
         id: "a-open-source",
         title: "DEVELOPED MY OPEN SOURCE PLUGIN",
         rarity: "epic",
         status: "achieved",
+        icon: {
+          src: iconepic02,
+          alt: "Epic achievement emblem-2",
+          cat: "epic02",
+        },
       },
       {
         id: "a-master-markup",
         title: "MASTER OF MARKUP",
         rarity: "epic",
         status: "in_progress",
+        icon: {
+          src: iconepic02,
+          alt: "Epic achievement emblem-2",
+          cat: "epic02",
+        },
       },
       {
         id: "a-pixel-perfect",
         title: "PIXEL-PERFECT PERFECTIONIST",
         rarity: "epic",
         status: "in_progress",
+        icon: {
+          src: iconepic02,
+          alt: "Epic achievement emblem-2",
+          cat: "epic02",
+        },
       },
       {
         id: "a-speed-demon",
         title: "“SPEED DEMON”",
         rarity: "epic",
         status: "in_progress",
+        icon: {
+          src: iconepic02,
+          alt: "Epic achievement emblem-2",
+          cat: "epic02",
+        },
       },
       {
         id: "a-browser-compat",
         title: "“BROWSER COMPATIBILITY”",
         rarity: "epic",
         status: "todo",
+        icon: {
+          src: iconepic03,
+          alt: "Epic achievement emblem-3",
+          cat: "epic03",
+        },
       },
       {
         id: "a-accessibility",
         title: "ACCESSIBILITY ADVOCATE",
         rarity: "epic",
         status: "todo",
+        icon: {
+          src: iconepic03,
+          alt: "Epic achievement emblem-3",
+          cat: "epic03",
+        },
       },
       {
         id: "a-another-milestone",
         title: "ANOTHER AWESOME MILESTONE",
         rarity: "epic",
         status: "todo",
+        icon: {
+          src: iconepic03,
+          alt: "Epic achievement emblem-3",
+          cat: "epic03",
+        },
       },
     ],
     []
@@ -103,12 +147,12 @@ export default function AchievementsTab() {
   }, [achievements, filter]);
 
   return (
-    <section className="achievements">
+    <section id="achievements">
       <header>
-        <h2>ACHIEVEMENTS</h2>
+        <h2>Achievements</h2>
 
         <div className="filter-bar" role="group" aria-label="Achievements filter">
-          <span className="label">FILTER:</span>
+          <span className="muted">Filter:</span>
 
           <FilterToggle
             label="ACHIEVED"
@@ -132,16 +176,14 @@ export default function AchievementsTab() {
         {visible.map((a) => (
           <div
             key={a.id}
-            className={`card ${STATUS_CLASS[a.status]} rarity-${a.rarity}`}
+            className={`card ${STATUS_CLASS[a.status]} card-${a.icon.cat}`}
             role="listitem"
           >
-          <div className="icon">
-            {a.icon ? ( <img src={a.icon.src} alt={a.icon.alt} draggable={false}/>): ""}
-          </div>
 
-            <div className={`rarity rarity-${a.rarity}`}>
-              <span>{a.rarity.toUpperCase()}</span>
-            </div>
+            <figure className="rarity">
+              <img src={a.icon.src} alt={a.icon.alt} draggable={false}/>
+              <figcaption>{a.rarity.toUpperCase()}</figcaption>
+            </figure>
 
             <div className="title">{a.title}</div>
           </div>
@@ -161,7 +203,8 @@ function FilterToggle(props: { label: string; checked: boolean; onChange: (v: bo
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
       />
-      <span>{label}</span>
+      <span className="checkmark"></span>
+      <span className="label">{label}</span>
     </label>
   );
 }

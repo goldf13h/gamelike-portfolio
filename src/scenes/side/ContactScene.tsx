@@ -44,7 +44,7 @@ export default function ContactScene(props: {onClose: () => void}) {
             </div>
           </div>
           <div className="actions">
-            <button type="submit">Send message [enter]</button>
+            <button className="primary" type="submit">Send message [enter]</button>
             <button type="button" onClick={onClose} title="Close (Esc)">Discard [esc]</button>
           </div>
         </form>

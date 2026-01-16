@@ -2,6 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Collapsible } from "../hooks/Collapsible";
 import imageSample01 from "../assets/project_detail_sample.png"
 
+import { RootPortal } from "../hooks/RootPortal";
+import type { ImagePreviewEntry } from "../app/types";
+import { ImagePreviewModal } from "../hooks/ImagePreviewModal";
+
 type LogCard = {
   title: string;
   body: string;
@@ -15,7 +19,8 @@ type LogEntry = {
   location: string;
   status: string;
   cards: LogCard[];
-  images?: { src: string; alt: string }[];
+  images?: ImagePreviewEntry["images"];
+  url?: string;
 }
 
 function clampText(text: string, maxChars: number): { text: string; clamped: boolean } {
@@ -69,7 +74,9 @@ export default function LogsTab(props: { onModalChange?: (open: boolean) => void
         // images optional; if removed or empty => button not shown
         images: [
           { src: imageSample01, alt: "Lab photo" },
+          { src: imageSample01, alt: "Lab photo 2" },
         ],
+        url: "www.google.com",
       },
       {
         id: "log-1",
@@ -283,13 +290,14 @@ export default function LogsTab(props: { onModalChange?: (open: boolean) => void
           </div>
         </div>
 
-
         {/* Modal overlay for image preview */}
         {preview ? (
-          <ImagePreviewModal
-            entry={logs.find((l) => l.id === preview.logId)!}
-            onClose={closePreview}
-          />
+          <RootPortal>
+            <ImagePreviewModal
+              entry={logs.find((l) => l.id === preview.logId)!}
+              onClose={closePreview}
+            />
+          </RootPortal>
         ) : null}
         </>
       )}
@@ -341,43 +349,4 @@ function LogCardView(props: {
       ) : null}
     </div>
   )
-}
-
-function ImagePreviewModal(props: {
-  entry: { title: string; date: string; images?: { src: string; alt: string }[] };
-  onClose: () => void;
-}) {
-  const { entry, onClose } = props;
-  const images = entry.images ?? [];
-
-  return (
-    <div className="modal-backdrop" role="dialog" aria-modal="true">
-      <div className="modal">
-        <header className="modal-header">
-          <h3>
-            Visual records: {entry.title} <span className="date">{entry.date}</span>
-          </h3>
-          <button type="button" onClick={onClose} aria-label="Close preview">
-            Close [esc]
-          </button>
-        </header>
-
-        {images.length === 0 ? (
-          <p className="muted">No visual records available for this entry.</p>
-        ) : (
-          <div className="modal-grid">
-            {images.map((img, i) => (
-              <figure key={i}>
-                <img src={img.src} alt={img.alt} />
-                <figcaption className="muted">{img.alt}</figcaption>
-              </figure>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* click outside to close */}
-      <button type="button" className="modal-scrim" onClick={onClose} aria-label="Close overlay" />
-    </div>
-  );
 }
