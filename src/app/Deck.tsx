@@ -28,6 +28,7 @@ export default function Deck() {
 
   // Keyboard controls
   useEffect(() => {
+    if (backgroundMode === "modal") return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (scene === "side") {
@@ -48,7 +49,7 @@ export default function Deck() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [scene]);
+  }, [scene, backgroundMode]);
 
 
   const actions = useMemo(

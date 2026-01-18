@@ -1,6 +1,5 @@
 import creation01 from "../assets/creation_img01.png";
 import type { CreationEntry } from "../app/types";
-import { TECH_ICON } from "./techIcons";
 
 export const CREATIONS: CreationEntry[] = [
   {
@@ -13,11 +12,12 @@ export const CREATIONS: CreationEntry[] = [
     cover: { src: creation01, alt: "Project 01 screenshot" },
     liveUrl: "https://example.com",
     brief: "One sentence explanation for what the project is.",
-    technologies: [
-      { key: "React", alt: "React", src: TECH_ICON.React },
-      { key: "TypeScript", alt: "TypeScript", src: TECH_ICON.TypeScript },
-      { key: "Vite", alt: "Vite", src: TECH_ICON.Vite },
-    ],
+    technologies: ["React", "TypeScript", "Vite"],
+    techDetails: {
+      React: "<p>Used React for component-driven UI, stateful modals, and conditional layouts...</p>",
+      TypeScript: "<p>Used TypeScript to type the data models (CreationEntry, ImagePreviewEntry)...</p>",
+      Vite: "<p>Used Vite for fast dev server, asset imports, and build pipeline...</p>",
+    },
     longHtml: `
       <p>This is a longer description area.</p>
       <p>You can put <strong>HTML</strong> here.</p>
@@ -41,11 +41,12 @@ export const CREATIONS: CreationEntry[] = [
     cover: { src: creation01, alt: "Project 01 screenshot" },
     liveUrl: "https://example.com",
     brief: "One sentence explanation for what the project is.",
-    technologies: [
-      { key: "React", alt: "React", src: TECH_ICON.React },
-      { key: "TypeScript", alt: "TypeScript", src: TECH_ICON.TypeScript },
-      { key: "Vite", alt: "Vite", src: TECH_ICON.Vite },
-    ],
+    technologies: ["React", "TypeScript", "Vite"],
+    techDetails: {
+      React: "<p>Used React for component-driven UI, stateful modals, and conditional layouts...</p>",
+      TypeScript: "<p>Used TypeScript to type the data models (CreationEntry, ImagePreviewEntry)...</p>",
+      Vite: "<p>Used Vite for fast dev server, asset imports, and build pipeline...</p>",
+    },
     longHtml: `
       <p>This is a longer description area.</p>
       <p>You can put <strong>HTML</strong> here.</p>
@@ -66,11 +67,12 @@ export const CREATIONS: CreationEntry[] = [
     cover: { src: creation01, alt: "Project 01 screenshot" },
     liveUrl: "https://example.com",
     brief: "One sentence explanation for what the project is.",
-    technologies: [
-      { key: "React", alt: "React", src: TECH_ICON.React },
-      { key: "TypeScript", alt: "TypeScript", src: TECH_ICON.TypeScript },
-      { key: "Vite", alt: "Vite", src: TECH_ICON.Vite },
-    ],
+    technologies: ["React", "TypeScript", "Vite"],
+    techDetails: {
+      React: "<p>Used React for component-driven UI, stateful modals, and conditional layouts...</p>",
+      TypeScript: "<p>Used TypeScript to type the data models (CreationEntry, ImagePreviewEntry)...</p>",
+      Vite: "<p>Used Vite for fast dev server, asset imports, and build pipeline...</p>",
+    },
     longHtml: `
       <p>This is a longer description area.</p>
       <p>You can put <strong>HTML</strong> here.</p>

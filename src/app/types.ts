@@ -14,13 +14,7 @@ export type ImagePreviewEntry = {
   url?: string;
 };
 
-export type TechKey = "React" | "TypeScript" | "Vite";
-
-export type Technology = {
-  key: TechKey;
-  alt: string;
-  src: string;
-};
+import type { TechKey } from "../content/techIcons";
 
 export type CreationEntry = {
   id: string;
@@ -32,8 +26,8 @@ export type CreationEntry = {
   liveUrl?: string;
 
   brief: string;
-  technologies: Technology[];
-
+  technologies: TechKey[];
+  techDetails: Partial<Record<TechKey, string>>;
   longHtml: string;
   demo?: ImagePreviewEntry;
 };

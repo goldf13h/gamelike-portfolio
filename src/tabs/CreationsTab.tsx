@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { RootPortal } from "../hooks/RootPortal";
 import { ImagePreviewModal } from "../hooks/ImagePreviewModal";
-import { CREATIONS } from "../data/creationsData";
+import { CREATIONS } from "../content/creationsData";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { TECH_ICON } from "../content/techIcons";
+import type { TechKey } from "../content/techIcons";
 
 export default function CREATIONSTab(props: {
   onModalChange?: (open: boolean) => void;
@@ -15,11 +20,26 @@ export default function CREATIONSTab(props: {
   function toggleCreation(id: string) {
     setOpenCreationIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
+      const willClose = next.has(id);
+      if (willClose) next.delete(id);
       else next.add(id);
       return next;
     });
+
+    setSelectedTechByCreation((prev) => ({ ...prev, [id]: null }));
   }
+
+  const [selectedTechByCreation, setSelectedTechByCreation] = useState<
+    Record<string, TechKey | null>
+  >({});
+
+  function selectTech(creationId: string, tech: TechKey) {
+    setSelectedTechByCreation((prev) => ({
+      ...prev,
+      [creationId]: prev[creationId] === tech ? null : tech, // click again to unselect
+    }));
+  }
+
 
   const [preview, setPreview] = useState<{ creationId: string } | null>(null);
 
@@ -50,27 +70,32 @@ export default function CREATIONSTab(props: {
     <>
       <section id="creations">
         <header>
-          <h2>Creations</h2>
+          <h2 className="text-center">Creations</h2>
         </header>
 
         <div className="creations-container">
           {CREATIONS.map((creation) => {
             const isOpen = openCreationIds.has(creation.id);
             const contentId = `${creation.id}-content`;
+            const selectedTech = selectedTechByCreation[creation.id];
+            const explorerHtml =
+              selectedTech && creation.techDetails?.[selectedTech]
+                ? creation.techDetails[selectedTech]!
+                : creation.longHtml;
 
             return (
               <div key={creation.id} className={`creation creation-${creation.id} ${isOpen ? "is-open" : ""}`}>
-                <button
-                  type="button"
-                  className="creation-hit"
-                  onClick={() => toggleCreation(creation.id)}
-                  aria-expanded={isOpen}
-                  aria-controls={contentId}
-                  aria-label={`Toggle ${creation.projectName}`}
-                />
 
                 {/* COVER */}
                 <div className="cover">
+                  <button
+                    type="button"
+                    className="creation-hit"
+                    onClick={() => toggleCreation(creation.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={contentId}
+                    aria-label={`Toggle ${creation.projectName}`}
+                  />
                   <figure className="cover-figure layer-frame">
                     <span className="layer layer1"></span>
                     <span className="layer layer2"></span>
@@ -108,39 +133,64 @@ export default function CREATIONSTab(props: {
                     <div className="details">
                       <p className="badge">Details</p>
                       <dl className="kv">
-                        <dd>Project name</dd>
-                        <dt>{creation.projectName}</dt>
-                        <dd>Brief</dd>
-                        <dt>{creation.brief}</dt>
+                        <dt>Project name</dt>
+                        <dd>{creation.projectName}</dd>
+                        <dt>Brief</dt>
+                        <dd>{creation.brief}</dd>
                       </dl>
                     </div>
 
                     <div className="technologies">
                       <p className="badge">Technologies</p>
                       <ul>
-                        {creation.technologies.map((t) => (
-                          <li key={t.key}>
-                            <img src={t.src} alt={t.alt} />
-                          </li>
-                        ))}
+                        {creation.technologies.map((tech) => {
+                          const isSelected = selectedTechByCreation[creation.id] === tech;
+
+                          return (
+                            <li key={tech} title={tech} className={isSelected ? "is-selected" : ""}>
+                              <button
+                                type="button"
+                                className="tech-btn"
+                                onClick={() => selectTech(creation.id, tech)}
+                                aria-pressed={isSelected}
+                                aria-label={`Show how ${tech} was used`}
+                              >
+                                <FontAwesomeIcon icon={TECH_ICON[tech]} aria-hidden="true" />
+                              </button>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
 
-                    <div className="explore">
-                      <div>
-                        <p>File exploror</p>
+                    <div className="explore layer-frame">
+                      <span className="layer layer1"></span>
+                      <span className="layer layer2"></span>
+                      <span className="layer layer3"></span>
+                      <span className="layer layer4"></span>
+                      <div className="explore-title">
+                        <button
+                          type="button"
+                          className="explore-toggle"
+                          onClick={() => setSelectedTechByCreation((prev) => ({ ...prev, [creation.id]: null }))}
+                          aria-label="Close tech details"
+                        >
+                          <FontAwesomeIcon icon={faAngleLeft} />
+                        </button>
+                        <p>File explorer</p>
                       </div>
-                      <div>location: project/{creation.projectName}</div>
+                      <div className="explore-location muted">location: /project/{creation.projectName.replace(/\s+/g, "-")}{selectedTech ? `/${selectedTech}` : ""}</div>
 
                       <div
-                        className="longtext"
-                        dangerouslySetInnerHTML={{ __html: creation.longHtml }}
+                        className="explore-longtext muted"
+                        dangerouslySetInnerHTML={{ __html: explorerHtml }}
                       />
                     </div>
 
                     <div className="actions">
                       <button
                         type="button"
+                        className="primary"
                         onClick={() => openPreview(creation.id)}
                         disabled={!creation.demo || (creation.demo.images?.length ?? 0) === 0}
                         title={
@@ -157,7 +207,7 @@ export default function CREATIONSTab(props: {
                         title="Close (Esc)"
                         onClick={() => toggleCreation(creation.id)}
                       >
-                        Discard [esc]
+                        Back to all projects
                       </button>
                     </div>
                   </div>

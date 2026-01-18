@@ -47,7 +47,7 @@ export default function HomeScene(props: {
         {tab === "logs" && <LogsTab onModalChange={handleModalChange} />}
         {tab === "achievements" && <AchievementsTab />}
         {tab === "creations" && <CreationsTab onModalChange={handleModalChange}/>}
-        {tab === "games" && <GamesTab />}
+        {tab === "games" && <GamesTab onModalChange={handleModalChange}/>}
       </main>
 
       <nav className="tabs">

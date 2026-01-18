@@ -202,8 +202,8 @@ export default function LogsTab(props: { onModalChange?: (open: boolean) => void
   return (
     <section id="logs">
       {loading ? (
-        <div className="log-loader notice" aria-live="polite" aria-busy="true">
-          <p>Initializing log interface</p>
+        <div className="log-loader" aria-live="polite" aria-busy="true">
+          <p className="text-center">Initializing log interface</p>
           <div className="loadingbar" role="progressbar" aria-label="Loading logs">
             <span className="fill" />
           </div>
@@ -211,7 +211,7 @@ export default function LogsTab(props: { onModalChange?: (open: boolean) => void
         </div>
       ) : (
         <>
-        <p className="notice">Data log dump initialized.</p>
+        <p className="text-center">Data log dump initialized.</p>
 
         <div className="logs-container">
           <div className="current-log log is-active">

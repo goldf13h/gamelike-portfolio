@@ -1,8 +1,6 @@
 import { useState } from "react";
 import type { ImagePreviewEntry } from "../app/types";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { EffectCoverflow, Navigation } from "swiper/modules";
 import "swiper/css";
 import 'swiper/css/navigation';

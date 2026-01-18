@@ -149,7 +149,7 @@ export default function AchievementsTab() {
   return (
     <section id="achievements">
       <header>
-        <h2>Achievements</h2>
+        <h2 className="text-center">Achievements</h2>
 
         <div className="filter-bar" role="group" aria-label="Achievements filter">
           <span className="muted">Filter:</span>
