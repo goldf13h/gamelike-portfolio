@@ -402,6 +402,12 @@ img {
     font-size: 2.2rem;
     width: 26.6rem;
     height: 5.5rem;
+    transition: color .5s ease, 
+                background-color .5s ease;
+    &:hover {
+      color: #FFFFFF;
+      background-color: $primary;
+    }
   }
 } 
 
