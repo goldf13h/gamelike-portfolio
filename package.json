@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:local": "tsc -b && vite build --base=/",
+    "preview:local": "npm run build:local && vite preview --host 0.0.0.0 --port 4174"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.9.0",
@@ -32,4 +34,5 @@
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
   }
+  
 }
