@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 export function AutoAnimateSection(props: {
   children: ReactNode;
   className?: string;
+  as?: keyof JSX.IntrinsicElements;
 }) {
   const { children, className, as } = props;
   const [parent] = useAutoAnimate();
