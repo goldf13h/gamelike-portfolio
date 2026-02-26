@@ -1,5 +1,7 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import type { ReactNode } from "react";
+import type { JSX } from "react";
+
 
 export function AutoAnimateSection(props: {
   children: ReactNode;
